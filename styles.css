@@ -1,0 +1,105 @@
+@import url("https://fonts.cdnfonts.com/css/hedvig-letters-serif");
+body {
+  font-family: "Hedvig Letters Serif", sans-serif;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  background-color: #eee2de;
+  padding: 40px;
+}
+nav {
+  display: flex;
+  gap: 45px;
+  flex-wrap: wrap;
+}
+h1,
+h2,
+h3,
+h4,
+p {
+  color: #2b2a4c !important;
+}
+
+.stone {
+  display: flex;
+  gap: 45px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.container {
+  gap: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+.container-2 {
+  gap: 90px;
+  display: flex;
+  justify-content: center;
+}
+.feature {
+  background-color: #ea906c;
+  border-radius: 5px;
+  padding: 20px;
+  color: #eee2de;
+}
+.texter {
+  margin-top: 300px;
+}
+
+.sub-container {
+  display: flex;
+}
+
+.container-3 {
+  display: flex;
+  background-color: #2b2a4c;
+
+  color: #eee2de !important;
+  border-radius: 10px;
+  margin: 20px;
+  margin-top: 60;
+  justify-content: space-between;
+}
+.container-3 h1,
+h3 {
+  color: #eee2de !important;
+  padding: 30px;
+}
+.container image {
+  padding: 10px;
+}
+.btn {
+  font-size: 20px;
+  border-radius: 5px;
+}
+
+.texter h3,
+h1 {
+  color: #2b2a4c !important;
+  padding-top: 0;
+}
+.big {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.blog-container {
+  padding: 40px;
+  height: 700px;
+  width: 400px;
+  background-color: #2b2a4c;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #eee2de !important;
+  border-radius: 10px;
+  margin: 100px;
+  margin-top: 60;
+}
+
+.blog-container p,
+h1 {
+  padding-left: 25px;
+  color: #eee2de !important;
+}

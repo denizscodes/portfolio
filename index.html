@@ -1,1 +1,171 @@
-<h1>hello World</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Öğrenci Devamsızlık Takip</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #06283d;
+      }
+
+      h1 {
+        color: #dff6ff;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+      }
+
+      th,
+      td {
+        padding: 12px;
+        text-align: left;
+        border: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+      tr {
+        background-color: #47b5ff;
+      }
+
+      button {
+        padding: 15px;
+        margin: 20px;
+        cursor: pointer;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Öğrenci Devamsızlık Takip</h1>
+
+    <!-- Tablo başlangıcı -->
+    <table border="1">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Ad</th>
+          <th>Soyad</th>
+          <th>Devamsızlık</th>
+          <th>Artır</th>
+          <th>Azalt</th>
+          <th>Detay</th>
+        </tr>
+      </thead>
+      <tbody id="ogrenciTablosu">
+        <!-- Öğrenci bilgileri buraya eklenecek -->
+      </tbody>
+    </table>
+    <!-- Tablo sonu -->
+
+    <!-- Genel Artır ve Özel Azalt Butonları -->
+    <button onclick="genelArtir()">Tüm Öğrencileri Artır</button>
+
+    <script>
+      // Öğrenci bilgilerini başlangıçta göstermek için
+      window.onload = function () {
+        guncelleOgrenciBilgileri();
+      };
+
+      function devamsizlikGuncelle(ogrenciID, artis) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "guncelle.php", true);
+        xhr.setRequestHeader(
+          "Content-type",
+          "application/x-www-form-urlencoded"
+        );
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+            guncelleOgrenciBilgileri(); // Öğrenci bilgilerini güncelle
+          }
+        };
+        xhr.send("ogrenciID=" + ogrenciID + "&devamsizlikArtis=" + artis);
+      }
+
+      function genelArtir() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "genel_artir.php", true);
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+            guncelleOgrenciBilgileri(); // Öğrenci bilgilerini güncelle
+          }
+        };
+        xhr.send();
+      }
+
+      function ozelAzalt(ogrenciID) {
+        devamsizlikGuncelle(ogrenciID, -1);
+      }
+
+      function detayGoster(ogrenciID) {
+        // Öğrenci ID'sine göre detay sayfasına yönlendir
+        window.location.href = "detay.php?id=" + ogrenciID;
+      }
+
+      function guncelleOgrenciBilgileri() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "ogrenciler.json", true);
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+            var ogrenciTablosu = document.getElementById("ogrenciTablosu");
+            var ogrenciler = JSON.parse(xhr.responseText).ogrenciler;
+
+            // Önceki tabloyu temizle
+            ogrenciTablosu.innerHTML = "";
+
+            // Yeni öğrenci bilgilerini ekle
+            for (var i = 0; i < ogrenciler.length; i++) {
+              var ogrenci = ogrenciler[i];
+              var row = ogrenciTablosu.insertRow(-1);
+
+              var cellID = row.insertCell(0);
+              cellID.innerHTML = ogrenci.id;
+
+              var cellAd = row.insertCell(1);
+              cellAd.innerHTML = ogrenci.ad;
+
+              var cellSoyad = row.insertCell(2);
+              cellSoyad.innerHTML = ogrenci.soyad;
+
+              var cellDevamsizlik = row.insertCell(3);
+              cellDevamsizlik.innerHTML = ogrenci.devamsizlik;
+
+              var cellArtir = row.insertCell(4);
+              cellArtir.innerHTML =
+                "<button onclick='devamsizlikGuncelle(" +
+                ogrenci.id +
+                ", 1)'>Artır</button>";
+
+              var cellAzalt = row.insertCell(5);
+              cellAzalt.innerHTML =
+                "<button onclick='ozelAzalt(" +
+                ogrenci.id +
+                ")'>Azalt</button>";
+
+              var cellDetay = row.insertCell(6);
+              cellDetay.innerHTML =
+                "<button onclick='detayGoster(" +
+                ogrenci.id +
+                ")'>Detay</button>";
+            }
+          }
+        };
+        xhr.send();
+      }
+    </script>
+  </body>
+</html>

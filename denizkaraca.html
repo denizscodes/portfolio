@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Öğrenci Sayfası</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+
+      h2 {
+        margin-bottom: 10px;
+      }
+
+      p {
+        margin-bottom: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Öğrenci Sayfası</h2>
+
+    <div id="studentDetails">
+      <p>Öğrenci No: <span id="studentNumber"></span></p>
+      <p>İsim: <span id="studentName"></span></p>
+      <p>Soyadı: <span id="studentSurname"></span></p>
+      <p>Devamsızlık: <span id="studentAttendance"></span></p>
+    </div>
+
+    <button id="decreaseButton">Devamsızlık Azalt</button>
+
+    <script>
+      // Sayfa yüklendiğinde verileri localStorage'dan al
+      var savedData = localStorage.getItem("studentData");
+      var studentsData = savedData ? JSON.parse(savedData) : {};
+
+      // Öğrenci adını al
+      var studentName = "denizkaraca"; // Öğrenci adını buradan alabilirsiniz veya URL'den çekebilirsiniz.
+
+      // İlgili öğrenciyi bul
+      var studentInfo = studentsData[studentName];
+
+      // Sayfadaki öğrenci bilgilerini güncelle
+      if (studentInfo) {
+        document.getElementById("studentNumber").textContent =
+          studentInfo["Öğrenci No"];
+        document.getElementById("studentName").textContent =
+          studentInfo["İsim"];
+        document.getElementById("studentSurname").textContent =
+          studentInfo["Soyadı"];
+        document.getElementById("studentAttendance").textContent =
+          studentInfo["Devamsızlık"];
+      } else {
+        console.error("Öğrenci bilgileri bulunamadı.");
+      }
+
+      // "Devamsızlık Azalt" butonuna tıklandığında devamsızlığı azalt
+      var decreaseButton = document.getElementById("decreaseButton");
+      decreaseButton.addEventListener("click", function () {
+        if (studentInfo && studentInfo["Devamsızlık"] > 0) {
+          studentInfo["Devamsızlık"]--;
+          document.getElementById("studentAttendance").textContent =
+            studentInfo["Devamsızlık"];
+          // Veriyi güncelle ve localStorage'a kaydet
+          localStorage.setItem("studentData", JSON.stringify(studentsData));
+        }
+      });
+    </script>
+  </body>
+</html>

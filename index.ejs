@@ -1,0 +1,33 @@
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bloglar</title>
+  </head>
+  <body>
+    <h1>Blogs</h1>
+    <a href="http://127.0.0.1:5500/admin.html"> <h1>Home Page</h1></a>
+
+    <ul>
+      <% for (const blog of blogs) { %>
+      <li><strong><%= blog.name %></strong>: <%= blog.blog %></li>
+      <% } %>
+    </ul>
+
+    <h2>Yeni Blog Ekle</h2>
+    <form action="/addBlog" method="post">
+      <label for="name">İsim:</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="blog">Blog:</label>
+      <textarea id="blog" name="blog" rows="4" required></textarea>
+
+      <label for="author">Yazar:</label>
+      <input type="text" id="author" name="author" required />
+
+      <button type="submit">Ekle</button>
+    </form>
+  </body>
+</html>
